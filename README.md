@@ -1,3 +1,5 @@
+[![Edge Shield Security Audit & Tests](https://github.com/xhaqs/xhaqs-edge-shield-audit/actions/workflows/edge-shield.yml/badge.svg)](https://github.com/xhaqs/xhaqs-edge-shield-audit/actions/workflows/edge-shield.yml)
+
 # User Manual & Documentation
 
 Welcome to the **xhaqs-edge-shield-audit** manual. This guide covers local security auditing via the CLI and real-time threat protection via the Cloudflare Edge API.
