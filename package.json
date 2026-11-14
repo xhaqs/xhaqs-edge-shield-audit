@@ -1,9 +1,8 @@
 {
   "name": "xhaqs-edge-shield-audit",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Edge Application Security & AI Guardrail Suite for Cloudflare Workers",
   "main": "./dist/index.js",
-  "type": "module",
   "bin": {
     "edge-shield": "./dist/bin/cli.js"
   },
