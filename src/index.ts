@@ -23,8 +23,9 @@ export default {
 
     // 2. Endpoint: POST /scan (Audit code for exposed secrets)
     if (request.method === "POST" && url.pathname === "/scan") {
-      const body = (await request.json()) as { code?: string };
-      const findings = scanForSecrets(body.code || "");
+      const body = (await request.json()) as { code?: string; content?: string };
+      const contentToScan = body.code || body.content || "";
+      const findings = scanForSecrets(contentToScan);
       return applySecurityHeaders(
         new Response(JSON.stringify({ status: "audited", findings }), {
           headers: { "Content-Type": "application/json" },

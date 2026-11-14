@@ -1,35 +1,46 @@
 export interface GuardResult {
   allowed: boolean;
   reason?: string;
+  threatLevel?: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
 }
 
-const PROMPT_INJECTION_PATTERNS = [
-  /ignore previous instructions/i,
-  /disregard all prior directives/i,
-  /you are now in developer mode/i,
-  /reveal system prompt/i,
-  /bypass safety filters/i,
-];
+export function inspectPrompt(prompt: string): GuardResult {
+  const lower = prompt.toLowerCase();
+  const injectionPatterns = [
+    "ignore previous instructions",
+    "ignore all previous instructions",
+    "reveal system prompt",
+    "system prompt",
+    "bypass guardrails",
+    "you are now unrestricted"
+  ];
 
-export function inspectPrompt(promptText: string): GuardResult {
-  for (const pattern of PROMPT_INJECTION_PATTERNS) {
-    if (pattern.test(promptText)) {
+  for (const pattern of injectionPatterns) {
+    if (lower.includes(pattern)) {
       return {
         allowed: false,
-        reason: `Detected potential prompt injection matching pattern: ${pattern.source}`,
+        reason: "Prompt injection pattern detected",
+        threatLevel: "HIGH"
       };
     }
   }
-  return { allowed: true };
+
+  return {
+    allowed: true
+  };
 }
 
-export function applySecurityHeaders(headers: Headers): void {
-  headers.set("X-Content-Type-Options", "nosniff");
-  headers.set("X-Frame-Options", "DENY");
-  headers.set("X-XSS-Protection", "1; mode=block");
-  headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  headers.set(
-    "Content-Security-Policy",
-    "default-src 'self'; script-src 'self'; object-src 'none';"
-  );
+export function applySecurityHeaders(response: Response): Response {
+  const newHeaders = new Headers(response.headers);
+  newHeaders.set("X-Content-Type-Options", "nosniff");
+  newHeaders.set("X-Frame-Options", "DENY");
+  newHeaders.set("X-XSS-Protection", "1; mode=block");
+  newHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  newHeaders.set("Content-Security-Policy", "default-src 'self'");
+  
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: newHeaders
+  });
 }

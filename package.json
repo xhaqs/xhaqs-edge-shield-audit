@@ -2,13 +2,16 @@
   "name": "xhaqs-edge-shield-audit",
   "version": "1.0.0",
   "description": "Edge Application Security & AI Guardrail Suite for Cloudflare Workers",
-  "main": "src/index.ts",
+  "main": "./dist/index.js",
   "type": "module",
   "bin": {
-    "edge-shield": "./bin/cli.js"
+    "edge-shield": "./dist/bin/cli.js"
   },
   "scripts": {
-    "test": "node --import tsx/esm test.js"
+    "test": "node --import tsx/esm test.js",
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "release": "npm run build && npm test"
   },
   "keywords": [
     "security",
@@ -20,6 +23,8 @@
   "author": "Zachary Mwarari (xhaqs)",
   "license": "MIT",
   "devDependencies": {
-    "tsx": "^4.7.0"
+    "@cloudflare/workers-types": "^5.20261114.1",
+    "tsx": "^4.7.0",
+    "typescript": "^5.9.3"
   }
 }
