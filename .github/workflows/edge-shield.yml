@@ -27,8 +27,11 @@ jobs:
       - name: Install Dependencies
         run: npm ci
           
-      - name: Run Unit Tests & Build Check
+      - name: Run Unit Tests
         run: npm test
+        
+      - name: Build Package
+        run: npm run build
         
       - name: Run Edge Shield Audit CLI
         run: node dist/bin/cli.js .
