@@ -1,6 +1,6 @@
-import { scanForSecrets } from "./rules/secrets";
-import { inspectPrompt, applySecurityHeaders } from "./middleware/guard";
-import { checkRateLimit } from "./middleware/ratelimit";
+import { scanForSecrets } from "./rules/secrets.js";
+import { inspectPrompt, applySecurityHeaders } from "./middleware/guard.js";
+import { checkRateLimit } from "./middleware/ratelimit.js";
 
 export default {
   async fetch(request: Request): Promise<Response> {

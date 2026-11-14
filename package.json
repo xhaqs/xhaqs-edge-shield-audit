@@ -30,5 +30,6 @@
     "@cloudflare/workers-types": "^5.20261114.1",
     "tsx": "^4.7.0",
     "typescript": "^5.9.3"
-  }
+  },
+  "type": "module"
 }
